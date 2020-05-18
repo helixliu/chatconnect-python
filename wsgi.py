@@ -2,6 +2,7 @@
 #coding=utf-8
 
 #import falcon
+import os
 from flask import Flask
 from flask import request
 from flask import Flask, make_response 
@@ -11,6 +12,13 @@ from wechatpy.exceptions import InvalidSignatureException
 from wechatpy import parse_message
 from wechatpy.replies import TextReply, ImageReply
 from wechatpy.replies import create_reply
+
+
+from tencentcloud.common import credential
+from tencentcloud.common.profile.client_profile import ClientProfile
+from tencentcloud.common.profile.http_profile import HttpProfile
+from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
+from tencentcloud.ocr.v20181119 import ocr_client, models
 
 
 application = Flask(__name__)
@@ -44,6 +52,25 @@ def connect():
             reply = TextReply(content=msg.content, message=msg)
         elif msg.type == 'image':
             reply = ImageReply(media_id=msg.media_id, message=msg)
+            #//PicUrl可以拿到图片
+            try:
+                cred = credential.Credential(
+                os.environ.get("TENCENTCLOUD_SECRET_ID"),
+                os.environ.get("TENCENTCLOUD_SECRET_KEY"))
+                httpProfile = HttpProfile()
+                httpProfile.endpoint = "ocr.tencentcloudapi.com"
+
+                clientProfile = ClientProfile()
+                clientProfile.httpProfile = httpProfile
+                client = ocr_client.OcrClient(cred, "ap-hongkong", clientProfile)
+
+                ocrreq = models.GeneralFastOCRRequest()
+                ocrreq.ImageUrl = msg.PicUrl
+                ocrres = client.GeneralFastOCR(ocrreq)
+                print(ocrres.to_json_string())
+
+            except TencentCloudSDKException as err:
+                    print(err)
         else:
             reply = TextReply(content='Hello,大哥，目前只支持文本和图片', message=msg)
         xml = reply.render()    
@@ -51,9 +78,7 @@ def connect():
         response = make_response(xml)
         response.content_type = 'application/xml'
         return response
+        
 if __name__ == "__main__":
     application.run()
     
-
-
-
