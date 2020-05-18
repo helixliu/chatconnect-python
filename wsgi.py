@@ -40,10 +40,10 @@ def connect():
         xml = request.stream.read()
         msg = parse_message(xml)
         if msg.type == 'text':
-            reply = TextReply(content=msg.content, message=msg)
+            reply = create_reply(content=msg.content, message=msg)
             #xml = reply.render()
         elif msg.type == 'image':
-            reply = ImageReply(media_id=msg.media_id, message=msg)
+            reply = create_reply(media_id=msg.media_id, message=msg)
             #xml = reply.render()
         print(reply)
         return     reply
