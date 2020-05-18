@@ -13,6 +13,7 @@ from wechatpy.exceptions import InvalidSignatureException
 from wechatpy import parse_message
 from wechatpy.replies import TextReply, ImageReply
 from wechatpy.replies import create_reply
+from wechatpy.replies import ArticlesReply
 
 
 from tencentcloud.common import credential
@@ -69,11 +70,19 @@ def connect():
                 ocrreq.ImageUrl = msg.image
                 ocrres = client.GeneralFastOCR(ocrreq)
                 print(ocrres.to_json_string())
-                for x in ocrres.to_json_string()["TextDetections"]:
+                for x in   json.loads (  ocrres.to_json_string() ) ["TextDetections"]:
                     print(x["DetectedText"])
 
             except TencentCloudSDKException as err:
                     print(err)
+            reply = ArticlesReply(message=message)
+            # simply use dict as article
+            reply.add_article({
+                'title': 'test',
+                'description': 'test',
+                'image': msg.image
+                #'url': 'url'
+            })        
         else:
             reply = TextReply(content='Hello,大哥，目前只支持文本和图片', message=msg)
         xml = reply.render()    
