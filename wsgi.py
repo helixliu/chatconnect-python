@@ -44,7 +44,7 @@ def connect():
             reply = TextReply(content=msg.content, message=msg)
         elif msg.type == 'image':
             reply = ImageReply(media_id=msg.media_id, message=msg)
-         else:
+        else:
             reply = TextReply(content='Hello,大哥，目前只支持文本和图片', message=msg)
         xml = reply.render()    
         print(reply)
