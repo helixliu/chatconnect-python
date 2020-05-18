@@ -17,7 +17,7 @@ application = Flask(__name__)
 def hello():
     return "Hello World!"
     
-@app.route('/connect', methods=['GET', 'POST'])
+@application.route('/connect', methods=['GET', 'POST'])
 def connect():
     if request.method == 'GET':
         query_string = request.query_string
