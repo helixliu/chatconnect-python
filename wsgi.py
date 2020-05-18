@@ -18,7 +18,7 @@ application = Flask(__name__)
 def hello():
     return "Hello World!"
     
-@application.route('/connect', methods=['GET', 'POST'])
+@application.route('/wechatconnect', methods=['GET', 'POST'])
 def connect():
     if request.method == 'GET':
         args = request.args
@@ -36,7 +36,7 @@ def connect():
             pass
         return resp_body
     elif request.method == 'POST':
-        xml = req.stream.read()
+        xml = request.stream.read()
         msg = parse_message(xml)
         if msg.type == 'text':
             reply = TextReply(content=msg.content, message=msg)
