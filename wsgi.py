@@ -39,14 +39,17 @@ def connect():
     elif request.method == 'POST':
         xml = request.stream.read()
         msg = parse_message(xml)
+        print(msg)
         if msg.type == 'text':
-            reply = create_reply(content=msg.content, message=msg)
-            #xml = reply.render()
+            reply = TextReply(content=msg.content, message=msg)
+            xml = reply.render()
         elif msg.type == 'image':
-            reply = create_reply(media_id=msg.media_id, message=msg)
-            #xml = reply.render()
+            reply = ImageReply(media_id=msg.media_id, message=msg)
+            xml = reply.render()
         print(reply)
-        return     reply
+        response = make_response(xml)
+        response.content_type = 'application/xml'
+        return response
 if __name__ == "__main__":
     application.run()
     
