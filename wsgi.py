@@ -54,7 +54,7 @@ def connect():
             reply = TextReply(content=msg.content, message=msg)
         elif msg.type == 'image':
             reply = ImageReply(media_id=msg.media_id, message=msg)
-            #//PicUrl可以拿到图片
+            ocr_text = '';
             try:
                 cred = credential.Credential(
                 os.environ.get("TENCENTCLOUD_SECRET_ID"),
@@ -67,19 +67,21 @@ def connect():
                 client = ocr_client.OcrClient(cred, "ap-hongkong", clientProfile)
 
                 ocrreq = models.GeneralFastOCRRequest()
-                ocrreq.ImageUrl = msg.image
+                ocrreq.ImageUrl = msg.image #发送过来的消息的url
                 ocrres = client.GeneralFastOCR(ocrreq)
                 print(ocrres.to_json_string())
+                
                 for x in   json.loads (  ocrres.to_json_string() ) ["TextDetections"]:
                     print(x["DetectedText"])
+                    ocr_text.join.x["DetectedText"]
 
             except TencentCloudSDKException as err:
                     print(err)
-            reply = ArticlesReply(message=message)
+            reply = ArticlesReply(message=msg)
             # simply use dict as article
             reply.add_article({
-                'title': 'test',
-                'description': 'test',
+                'title': 'OCR Test',
+                'description': ocr_text,
                 'image': msg.image
                 #'url': 'url'
             })        
