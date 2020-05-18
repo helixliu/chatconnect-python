@@ -10,6 +10,7 @@ from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy import parse_message
 from wechatpy.replies import TextReply, ImageReply
+from wechatpy.replies import create_reply
 
 
 application = Flask(__name__)
