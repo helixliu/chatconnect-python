@@ -1,5 +1,7 @@
 gunicorn
 falcon
 wechatpy
+cryptography
+pycryptodome
 wechatpy[cryptography]
 wechatpy[pycrypto]
