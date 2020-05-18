@@ -4,6 +4,7 @@
 #import falcon
 from flask import Flask
 from flask import request
+from flask import Flask, make_response 
 
 from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
@@ -34,8 +35,17 @@ def connect():
             resp_body = "Error with check_signature"
             pass
         return resp_body
-    return 'You are not logged in'
-
+    elif request.method == 'POST':
+        xml = req.stream.read()
+        msg = parse_message(xml)
+        if msg.type == 'text':
+            reply = TextReply(content=msg.content, message=msg)
+            #xml = reply.render()
+        elif msg.type == 'image':
+            reply = ImageReply(media_id=msg.media_id, message=msg)
+            #xml = reply.render()
+        print(reply)
+        return     reply
 if __name__ == "__main__":
     application.run()
     
