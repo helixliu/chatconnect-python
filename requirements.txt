@@ -1,2 +1,4 @@
 gunicorn
-Flask
+wechatpy
+wechatpy[cryptography]
+wechatpy[pycrypto]
