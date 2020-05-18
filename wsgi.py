@@ -31,6 +31,7 @@ def connect():
             resp_body = args["echostr"]
         except InvalidSignatureException:
             print("Error with check_signature")
+            resp_body = "Error with check_signature"
             pass
         return resp_body
     return 'You are not logged in'
