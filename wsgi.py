@@ -26,8 +26,10 @@ def connect():
             print(f"{k}: {v}")
         print(args)
         try:
-            check_signature(token='001001001001', signature=args['signature'], timestamp=args['timestamp'], nonce=args['nonce'])
+            check_signature_str = check_signature(token='001001001001', signature=args['signature'], timestamp=args['timestamp'], nonce=args['nonce'])
+            print(check_signature_str)
             resp_body = args['echostr']
+            print(resp_body)
         except InvalidSignatureException:
             pass
         return resp_body
