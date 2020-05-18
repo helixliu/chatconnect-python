@@ -3,6 +3,7 @@
 
 #import falcon
 import os
+import json
 from flask import Flask
 from flask import request
 from flask import Flask, make_response 
@@ -68,6 +69,8 @@ def connect():
                 ocrreq.ImageUrl = msg.image
                 ocrres = client.GeneralFastOCR(ocrreq)
                 print(ocrres.to_json_string())
+                for x in ocrres.to_json_string()["TextDetections"]:
+                    print(x["DetectedText"])
 
             except TencentCloudSDKException as err:
                     print(err)
