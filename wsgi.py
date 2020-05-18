@@ -28,9 +28,10 @@ def connect():
         try:
             check_signature_str = check_signature(token='001001001001', signature=args['signature'], timestamp=args['timestamp'], nonce=args['nonce'])
             print(check_signature_str)
-            resp_body = args['echostr']
+            resp_body = args["echostr"]
             print(resp_body)
         except InvalidSignatureException:
+            print(resp_body)
             pass
         return resp_body
     return 'You are not logged in'
