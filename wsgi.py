@@ -51,6 +51,7 @@ def connect():
         if msg.type == 'text':
             reply = TextReply(content=msg.content, message=msg)
         elif msg.type == 'image':
+            picUrl = msg["PicUrl"]
             reply = ImageReply(media_id=msg.media_id, message=msg)
             #//PicUrl可以拿到图片
             try:
@@ -65,7 +66,7 @@ def connect():
                 client = ocr_client.OcrClient(cred, "ap-hongkong", clientProfile)
 
                 ocrreq = models.GeneralFastOCRRequest()
-                ocrreq.ImageUrl = msg.PicUrl
+                ocrreq.ImageUrl = picUrl
                 ocrres = client.GeneralFastOCR(ocrreq)
                 print(ocrres.to_json_string())
 
