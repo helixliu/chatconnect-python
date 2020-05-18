@@ -73,7 +73,7 @@ def connect():
                 
                 for x in   json.loads (  ocrres.to_json_string() ) ["TextDetections"]:
                     print(x["DetectedText"])
-                    ocr_text.join.x["DetectedText"]
+                    ocr_text.join(x["DetectedText"]).join(" ")
 
             except TencentCloudSDKException as err:
                     print(err)
