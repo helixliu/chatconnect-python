@@ -3,5 +3,6 @@ flask
 wechatpy
 cryptography
 pycryptodome
+tencentcloud-sdk-python
 wechatpy[cryptography]
 wechatpy[pycrypto]
