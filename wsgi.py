@@ -22,6 +22,8 @@ def connect():
     if request.method == 'GET':
         args = request.args
         resp_body = ""
+        for k, v in args.items():
+            print(f"{k}: {v}")
         print(args)
         try:
             check_signature(token='001001001001', signature=args['signature'], timestamp=args['timestamp'], nonce=args['nonce'])
